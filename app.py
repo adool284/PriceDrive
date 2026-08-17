@@ -3,11 +3,9 @@ import joblib
 import pandas as pd
 import time
 
-# --- 1. Page Configuration ---
 st.set_page_config(page_title="AutoPrice Pro", page_icon="🏎️", layout="centered")
 
 
-# --- 2. Load Pipeline ---
 @st.cache_resource
 def load_model():
     return joblib.load("full_car_pipeline.pkl")
@@ -15,7 +13,6 @@ def load_model():
 
 pipeline = load_model()
 
-# --- 3. CSS for Top-Down Rain Animation ---
 st.markdown("""
     <style>
     .stApp { background: linear-gradient(135deg, #1f4068 0%, #162447 50%, #1b1b2f 100%); color: #ffffff; }
@@ -32,7 +29,6 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# --- 4. UI Layout ---
 st.markdown('<h1 style="text-align: center; color: #e43f5a;">🏎️ AutoPrice Pro</h1>', unsafe_allow_html=True)
 
 col1, col2 = st.columns(2)
@@ -45,10 +41,8 @@ with col2:
     fuel_type = st.selectbox("Fuel Type", ["Gasoline", "Hybrid", "Diesel", "E85 Flex Fuel"])
     accident = st.selectbox("Accident", ["None reported", "At least one accident reported"])
 
-# --- 5. Prediction & Animation ---
 if st.button("🚀 Predict Price", use_container_width=True, type="primary"):
     with st.spinner('Analyzing...'):
-        # حساب الميزات
         car_age = max(1, 2026 - model_year)
         milage_per_year = milage / car_age
 
@@ -61,7 +55,6 @@ if st.button("🚀 Predict Price", use_container_width=True, type="primary"):
 
         prediction = pipeline.predict(input_data)[0]
 
-    # عرض العربيات (Top-down view)
     st.markdown(f"""
         <div class="car-icon" style="top: 0; left: 10%;">🏎️</div>
         <div class="car-icon" style="top: -50px; left: 30%;">🚙</div>
